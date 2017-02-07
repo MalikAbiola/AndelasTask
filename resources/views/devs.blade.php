@@ -9,6 +9,10 @@
             height: 100vh;
             margin: 0;
         }
+        h3 {
+            text-align: center;
+        }
+
         ul {
             display: block;
         }
@@ -18,40 +22,42 @@
             margin: 2px;
         }
 
-        a:hover {
-            text-underline: none;
-        }
+        .dev_url {
+            text-decoration: none;
 
-        a div.image_div {
-            float: left;
         }
-
-        a div.dev_name {
-            font-size: 15px;
+        .dev_image {
+            width: 32px;
+            height: 32px;
         }
 
     </style>
 </head>
 <body>
-        <h3>Github Report - Lagos PHP Devs</h3>
-        <ul>
-        @forelse ($devs as $dev)
-        <li>
-            <a href="{{ $dev->html_url }}" target="_blank">
-                <div>
-                    <div class="image_div">
-                        <img src="{{ $dev->avatar_url }}">
-                    </div>
-                    <div class="dev_name">
-                        {{ $dev->name }}
-                    </div>
-                </div>
+    <div class="container">
+        <h3>Github Report - Lagos PHP Devs - Page {{$current_page}} of {{$last_page}}</h3>
+        <div id="pagination">
+            @if ($prev_page != 0)
+                <a href="/?page={{$prev_page}}">Prev</a>
+            @endif
+            @if  ($next_page != 0)
+                <a href="/?page={{$next_page}}">Next</a>
+            @endif
+        </div>
+        <div id="developers">
+            <table>
+                @forelse ($devs as $dev)
+                    <tr>
+                        <td><img src="{{ $dev->avatar_url }}" class="dev_image"></td>
+                        <td><a href="{{ $dev->html_url }}" target="_blank" class="dev_url">{{ $dev->login }}</a></td>
+                    </tr>
+                @empty
+                    <tr><td colspan="2">No Users Found.</td></tr>
+                @endforelse
+            </table>
 
-            </a>
-        </li>
-    @empty
-        <li>No users</li>
-    @endforelse
-    </ul>
+        </div>
+
+    </div>
 </body>
 </html>

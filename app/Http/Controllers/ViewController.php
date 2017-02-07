@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Services\GithubService;
+use Illuminate\Http\Request;
 
 class ViewController extends Controller
 {
@@ -20,12 +21,8 @@ class ViewController extends Controller
         $this->githubService = $githubService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $devs = [
-            "devs" => $this->githubService->getDevs()
-        ];
-
-        return view('devs', $devs);
+        return view('devs', $this->githubService->getDevs($request->get('page', 1)));
     }
 }
